@@ -114,7 +114,7 @@ Designed a Sales Performance Review Dashboard in Databricks SQL to visualize the
 ### 1. Appending Incremental Data to Parent Gold
 This `COPY INTO` statement reads the processed incremental CSV from the Unity Catalog Volume and appends it to the parent company's consolidated Gold fact table.
 
-```sql
+```
 COPY INTO fmcg.gold.fact_orders
 FROM (
 SELECT
@@ -129,4 +129,104 @@ FILEFORMAT = CSV
 FORMAT_OPTIONS ('header' = 'true');
 ```
 
-### 1. Appending Incremental Data to Parent Gold
+### 2. Denormalized View
+To optimize the dashboard for sub-second query performance, this view joins the consolidated Fact table with the `Date`, `Product`, `Customer`, and `Gross Price` dimensions.
+
+```
+CREATE OR REPLACE VIEW fmcg.gold.flat_table AS
+SELECT
+    fo.date,
+    fo.product_code,
+    fo.customer_code,
+    fo.sold_quantity,
+    dd.full_date,
+    dd.date_key,
+    dd.year,
+    dd.month_name,
+    dd.month_short_name,
+    dd.quarter,
+    dp.division,
+    dp.category,
+    dp.product,
+    dp.variant,
+    dc.customer,
+    dc.market,
+    dc.platform,
+    dc.channel,
+    dgp.price_inr,
+    (fo.sold_quantity * dgp.price_inr) AS revenue
+FROM
+    fmcg.gold.fact_orders AS fo
+
+-- LEFT JOIN WITH DATE DIMENSION
+LEFT JOIN
+    fmcg.gold.dim_date AS dd
+ON
+    fo.date = dd.month_start_date
+
+-- LEFT JOIN WITH PRODUCTS DIMENSION
+LEFT JOIN
+    fmcg.gold.dim_products AS dp
+ON
+    fo.product_code = dp.product_code
+
+-- LEFT JOIN WITH CUSTOMERS DIMENSION
+LEFT JOIN
+    fmcg.gold.dim_customers AS dc
+ON
+    fo.customer_code = dc.customer_code
+
+-- LEFT JOIN WITH GROSS PRICE DIMENSION
+LEFT JOIN
+    fmcg.gold.dim_gross_price AS dgp
+ON
+    fo.product_code = dgp.product_code
+AND
+    YEAR(fo.date) = dgp.year;
+
+-- Preview
+SELECT  
+    *
+FROM
+    fmcg.gold.flat_table;
+```
+
+### 3. Date Dimension Generation
+Dynamically generated a Date Dimension using PySpark's `SEQUENCE` and `EXPLODE` functions, covering the period from `2024-01-01` to `2025-12-31`.
+
+```
+-- Date dimension: fmcg.gold.date_dim | 2024-01-01 to 2025-12-31 | 731 rows
+DROP TABLE IF EXISTS fmcg.gold.dim_date;
+
+CREATE TABLE fmcg.gold.dim_date (
+    full_date           DATE,
+    date_key            INT,
+    month_start_date    DATE,
+    year                INT,
+    month_name          STRING,
+    month_short_name    STRING,
+    quarter             STRING
+)
+USING DELTA; -- Delta = ACID, time travel, schema enforcement, MERGE support
+
+-- SEQUENCE builds an array of dates; EXPLODE splits it into one row per date
+INSERT INTO fmcg.gold.dim_date (
+    full_date,
+    date_key,
+    month_start_date,
+    year,
+    month_name,
+    month_short_name,
+    quarter
+)
+SELECT
+    dates,
+    CAST(DATE_FORMAT(dates, 'yyyyMMdd') AS INT),
+    DATE_TRUNC('month', dates),
+    YEAR(dates),
+    DATE_FORMAT(dates, 'MMMM'),
+    DATE_FORMAT(dates, 'MMM'),
+    CONCAT('Q', QUARTER(dates))
+FROM
+    (SELECT EXPLODE(SEQUENCE(DATE '2024-01-01', DATE '2025-12-31', INTERVAL 1 DAY)) AS dates);
+```
