@@ -70,7 +70,7 @@ Each dataset undergoes rigorous cleaning in the Silver layer:
 *   **Hashing:** Product names are hashed into a 64-character `product_code` using `sha2(col('product_name'), 256)` to create a stable, deterministic surrogate key.
 
 ### 3. Gold Aggregation & Incremental Updates
-For full loads, fact data is aggregated to the monthly grain (`month_start`, `product_code`, `customer_code`). 
+For full loads, fact data is aggregated to the monthly grain (`month_start`, `product_code`, `customer_code`).<br>
 For **incremental loads**, the pipeline executes a sophisticated flow:
 1.  Extracts the distinct `affected_months` from the new batch.
 2.  Re-aggregates the entire staging table for those specific months.
