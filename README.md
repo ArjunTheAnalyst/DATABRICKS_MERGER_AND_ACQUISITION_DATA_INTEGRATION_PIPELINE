@@ -13,7 +13,7 @@
 1. [The Business Problem](#-the-business-problem)
 2. [Engineering Highlights](#-engineering-highlights)
 3. [Repository Structure](#-repository-structure)
-4. [Data Pipeline Flow with Transformations](#-data-pipeline-flow-with-transformations)
+4. [Data Pipeline Flow and Transformations](#-data-pipeline-flow--transformations)
 5. [Orchestration and Workflow](#-orchestration--workflow)
 6. [The Executive Dashboard](#-the-executive-dashboard)
 7. [Appendix: Core SQL Logic](#-appendix-core-sql-logic)
@@ -59,7 +59,7 @@ During a corporate acquisition, the parent company needs to report on combined s
 
 ---
 
-## ⚙️ Data Pipeline Flow with Transformations
+## ⚙️ Data Pipeline Flow and Transformations
 
 ### 1. Bronze Ingestion
 Raw CSVs are loaded using `spark.read` with `inferSchema=True`. We append metadata columns (`_metadata.file_name`, `_metadata.file_size`) for lineage and a `current_timestamp()` for audit tracking before writing to Delta.
