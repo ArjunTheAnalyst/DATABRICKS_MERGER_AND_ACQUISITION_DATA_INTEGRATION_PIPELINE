@@ -82,7 +82,7 @@ For **incremental loads**, the pipeline executes a sophisticated flow:
 
 ![Job](images/01_job_screenshot.png)
 
-The pipeline is fully automated via **Databricks Workflows** .
+The pipeline is fully automated via **Databricks Workflows**.
 
 ### Task Dependencies:
 To ensure referential integrity, the job processes data in a strict order:
@@ -97,7 +97,7 @@ All tasks run on **Serverless Compute**, ensuring auto-scaling and cost-efficien
 
 ## 📈 The Executive Dashboard
 
-`![Dashboard](images/01_job_screenshot.png)`
+![Dashboard](images/02_dashboard_screenshot.png)
 
 Designed a Sales Performance Review Dashboard in Databricks SQL to visualize the unified data. 
 
