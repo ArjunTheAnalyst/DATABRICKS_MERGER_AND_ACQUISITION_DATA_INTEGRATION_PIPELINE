@@ -34,13 +34,13 @@ During a corporate acquisition, the parent company needs to report on combined s
 
 *   **Idempotent Processing (S3 Routing):** Engineered safeguards to ensure pipeline re-runs never duplicate data. Files are ingested, and once processed, an automated Python script moves them from the S3 `landing/` to the `processed/` folder.
 *   **Advanced UPSERT (MERGE) Logic:** Implemented Delta Lake `MERGE INTO` statements on composite business keys (e.g., matching on `order_id`, `order_placement_date`, `customer_id`, and `product_code`) to seamlessly upsert changed records.
-*   **Incremental Aggregation Engine:** Built an incremental pipeline that identifies the distinct affected months from the new batch and recalculates the monthly totals by combining historical data with new incoming data before merging.
+*   **Incremental Aggregation Engine:** Built an incremental pipeline that identifies the distinct affected months from the new batch and recalculates the monthly totals by combining historical data with the new incoming data before merging.
 *   **Data Quality Remediation:** 
     *   **Customers:** Handled missing `city` data by engineering a mapping table strategy (`customer_city_map`) to impute missing values based on customer IDs. Standardized whitespace and casing using `trim()` and `initcap()`.
     *   **Products:** Corrected spelling errors (e.g., "Protien" to "Protein") using `regexp_replace`. Dynamically extracted product variants (e.g., "60g") using regex `r'\((.*?)\)'`.
     *   **Pricing:** Cleaned invalid string prices and handled negative values by converting them to absolute doubles, filtering out zero-price anomalies.
     *   **Orders:** Parsed mixed date formats using `try_to_date` with multiple fallback formats. Sanitized invalid IDs using regex `^[0-9]+$`.
-*   **Performance Optimization:** Built a pre-joined Denormalized View (Star Schema) to offload heavy lifting from the BI dashboard, ensuring sub-second query times.
+*   **Performance Optimization:** Built a pre-joined Denormalized View to ensure sub-second query times.
 
 ---
 
@@ -83,7 +83,7 @@ For **incremental loads**, the pipeline executes a sophisticated flow:
 *(Insert your Databricks Job screenshot here)*
 `![Databricks Workflow DAG](images/workflow.png)`
 
-The pipeline is fully automated via **Databricks Workflows** using a sequential Directed Acyclic Graph (DAG). 
+The pipeline is fully automated via **Databricks Workflows** .
 
 ### Task Dependencies:
 To ensure referential integrity, the job processes data in a strict order:
@@ -116,6 +116,17 @@ This `COPY INTO` statement reads the processed incremental CSV from the Unity Ca
 
 ```sql
 COPY INTO fmcg.gold.fact_orders
-FROM '/Volumes/fmcg/gold/parent_gold_incremental_update/fact_orders.csv'
+FROM (
+SELECT
+    CAST(date AS DATE) AS date,
+    product_code,
+    customer_code,
+    CAST(sold_quantity AS BIGINT) AS sold_quantity
+FROM
+    '/Volumes/fmcg/gold/parent_gold_incremental_update/fact_orders.csv'
+)
 FILEFORMAT = CSV
 FORMAT_OPTIONS ('header' = 'true');
+```
+
+### 1. Appending Incremental Data to Parent Gold
