@@ -80,8 +80,7 @@ For **incremental loads**, the pipeline executes a sophisticated flow:
 
 ## 🗓️ Orchestration & Workflow
 
-*(Insert your Databricks Job screenshot here)*
-`![Databricks Workflow DAG](images/workflow.png)`
+`![Job](01_job_screenshot.png)`
 
 The pipeline is fully automated via **Databricks Workflows** .
 
@@ -98,8 +97,7 @@ All tasks run on **Serverless Compute**, ensuring auto-scaling and cost-efficien
 
 ## 📈 The Executive Dashboard
 
-*(Insert your Databricks Dashboard screenshot here)*
-`![Dashboard](images/dashboard.png)`
+`![Dashboard](01_job_screenshot.png)`
 
 Designed a Sales Performance Review Dashboard in Databricks SQL to visualize the unified data. 
 
