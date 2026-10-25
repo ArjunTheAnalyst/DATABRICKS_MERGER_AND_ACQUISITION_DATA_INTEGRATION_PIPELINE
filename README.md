@@ -80,7 +80,7 @@ For **incremental loads**, the pipeline executes a sophisticated flow:
 
 ## 🗓️ Orchestration & Workflow
 
-![Job](01_job_screenshot.png)
+![Job](images/01_job_screenshot.png)
 
 The pipeline is fully automated via **Databricks Workflows** .
 
