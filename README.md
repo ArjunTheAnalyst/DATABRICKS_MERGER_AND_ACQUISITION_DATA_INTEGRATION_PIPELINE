@@ -48,7 +48,7 @@ During a corporate acquisition, the parent company needs to report on combined s
 
 | Component | Type | Description |
 | :--- | :--- | :--- |
-| **[01_customer_data_processing]([01_customer_data_processing.ipynb](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/01_customer_data_processing.ipynb)** | Notebook (PySpark) | Cleans raw customer data, deduplicates, fixes missing cities using `customer_city_map`, applies `initcap`, and `MERGE`s into the Gold dimension. |
+| **[01_customer_data_processing](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/01_customer_data_processing.ipynb)** | Notebook (PySpark) | Cleans raw customer data, deduplicates, fixes missing cities using `customer_city_map`, applies `initcap`, and `MERGE`s into the Gold dimension. |
 | **`02_products_data_processing`** | Notebook (PySpark) | Parses product names, extracts variants, fixes spelling, generates a SHA-256 `product_code` hash, and merges into the Gold dimension. |
 | **`03_pricing_data_processing`** | Notebook (PySpark) | Validates gross pricing data, removes `"unknown"` strings, handles negative values, and finds the latest non-zero price per product per year. |
 | **`04_fact_data_processing_full_load`** | Notebook (PySpark) | The initial historical load. Parses mixed date formats, drops null quantities, and aggregates data to the monthly grain for the Gold Fact table. |
