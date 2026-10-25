@@ -97,7 +97,7 @@ All tasks run on **Serverless Compute**, ensuring auto-scaling and cost-efficien
 
 ## 📈 The Executive Dashboard
 
-`![Dashboard](01_job_screenshot.png)`
+`![Dashboard](images/01_job_screenshot.png)`
 
 Designed a Sales Performance Review Dashboard in Databricks SQL to visualize the unified data. 
 
