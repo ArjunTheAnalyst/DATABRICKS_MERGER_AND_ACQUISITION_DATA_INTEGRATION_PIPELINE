@@ -53,7 +53,7 @@ During a corporate acquisition, the parent company needs to report on combined s
 | **[03_pricing_data_processing](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/03_pricing_data_processing.ipynb)** | Notebook (PySpark) | Validates gross pricing data, removes `"unknown"` strings, handles negative values, and finds the latest non-zero price per product per year. |
 | **[04_fact_data_processing_full_load](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/04_fact_data_processing_full_load.ipynb)** | Notebook (PySpark) | The initial historical load. Parses mixed date formats, drops null quantities, and aggregates data to the monthly grain for the Gold Fact table. |
 | **[05_fact_data_processing_incremental_load](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/05_fact_data_processing_incremental_load.ipynb)** | Notebook (PySpark) | The daily sync. Reads from the landing zone, applies transformations, merges to Silver, and re-aggregates affected months before merging to Gold. |
-| **SQL Queries** | Query (SQL) | Includes the `COPY INTO` append logic, the Denormalized View creation, and the Date Dimension generation. |
+| **[SQL Queries](#-Appendix-Core-SQL-Logic)** | Query (SQL) | Includes the `COPY INTO` append logic, the Denormalized View creation, and the Date Dimension generation. |
 | **`INSIGHTS DASHBOARD`** | Dashboard | The final executive dashboard for visualizing combined sales performance. |
 
 ---
