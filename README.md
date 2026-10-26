@@ -14,7 +14,7 @@
 2. [Engineering Highlights](#-engineering-highlights)
 3. [Repository Structure](#-repository-structure)
 4. [Data Pipeline Flow & Transformations](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/README.md#%EF%B8%8F-data-pipeline-flow--transformations)
-5. Orchestration & Workflow
+5. [Orchestration & Workflow](https://github.com/ArjunTheAnalyst/DATABRICKS_MERGER_AND_ACQUISITION_DATA_INTEGRATION_PIPELINE/blob/main/README.md#%EF%B8%8F-orchestration--workflow)
 6. [The Executive Dashboard](#-the-executive-dashboard)
 7. [Appendix: Core SQL Logic](#-appendix-core-sql-logic)
 8. [Conclusion](#-conclusion)
