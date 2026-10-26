@@ -1,4 +1,4 @@
-# 🏢 DATABRICKS MERGER AND ACQUISITION DATA PIPELINE
+# 🏢 DATABRICKS MERGER AND ACQUISITION DATA INTEGRATION PIPELINE
 
 > **Business Scenario:** A parent company has acquired a subsidiary. The subsidiary's historical data was trapped in a legacy OLTP system, causing reporting bottlenecks. This project engineers a modern Databricks Lakehouse to extract, transform, and continuously sync the acquired company's data, while seamlessly integrating it into the parent company's consolidated enterprise reporting layer.
 
