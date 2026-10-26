@@ -59,7 +59,7 @@ During a corporate acquisition, the parent company needs to report on combined s
 
 ---
 
-## Data Pipeline Flow & Transformations
+## ⚙️ Data Pipeline Flow & Transformations
 
 ### 1. Bronze Ingestion
 Raw CSVs are loaded using `spark.read` with `inferSchema=True`. We append metadata columns (`_metadata.file_name`, `_metadata.file_size`) for lineage and a `current_timestamp()` for audit tracking before writing to Delta.
@@ -79,7 +79,7 @@ For **incremental loads**, the pipeline executes a sophisticated flow:
 
 ---
 
-## Orchestration & Workflow
+## 🗓️ Orchestration & Workflow
 
 ![Job](images/01_job_screenshot.png)
 
