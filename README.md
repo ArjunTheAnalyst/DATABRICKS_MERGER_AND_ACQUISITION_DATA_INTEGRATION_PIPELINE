@@ -111,9 +111,9 @@ Designed a Sales Performance Review Dashboard in Databricks SQL to visualize the
 ## 💻 Appendix: Core SQL Logic
 
 ### 1. Appending Incremental Data to Parent Gold
-After the Databricks Workflow finishes orchestrating the historical and incremental merges, this `COPY INTO` statement acts as the final hand-off. It reads the newly processed incremental CSV from the Unity Catalog Volume and appends it directly to the parent company's consolidated Gold fact table. 
+After the Databricks Workflow completes its orchestration (processing the child company's data), this `COPY INTO` statement ingests the **parent company's daily incremental data**. 
 
-This ensures the final `fact_orders` table is completely up-to-date, which then directly powers the dynamic Denormalized View and the executive dashboard.
+It reads the new CSV from the Unity Catalog Volume and appends it directly into the consolidated `fact_orders` table. This ensures the final Gold layer is up-to-date with the parent's latest transactions, which then feeds directly into the Denormalized View and the executive dashboard.
 
 ```
 COPY INTO fmcg.gold.fact_orders
